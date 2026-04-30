@@ -32,4 +32,15 @@ class PasswordValidatorTest {
     void containsDigit_shouldReturnTrueOrFalse_whenCalledWithContainOrNotContainDigit(String password, boolean expected){
         assertEquals(expected, PasswordValidator.containsDigit(password));
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "HELLOWORLD, false",
+            "helloworld, false",
+            "HelloWorld, true",
+            "h, false"
+    })
+    void containsUpperAndLower_shouldReturnTrueOrFalse_whenCalledWithUpperLowerCase(String password, boolean expected){
+        assertEquals(expected, PasswordValidator.containsUpperAndLower(password));
+    }
 }
