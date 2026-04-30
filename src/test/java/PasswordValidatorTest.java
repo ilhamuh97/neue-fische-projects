@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordValidatorTest {
     final static int MIN_LENGTH = 8;
+    final static String SPECIAL_CHARS = "!@#$%^&*()-_+=?.,;:";
 
     @ParameterizedTest
     @CsvSource({
@@ -71,5 +72,15 @@ class PasswordValidatorTest {
     })
     void isValid_shouldReturnTrueOrFalse_whenCalledWithValidAndNotValid(String password, boolean expected) {
         assertEquals(expected, PasswordValidator.isValid(password));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Abc1def#g, true",
+            "Passwort1, false",
+            "Abcdef1g!, true",
+    })
+    void containsSpecialChar_shouldReturnTrueOrFalse_whenCalledWithSpecialCharOrNot(String password, boolean expected) {
+        assertEquals(expected, PasswordValidator.containsSpecialChar(password, SPECIAL_CHARS));
     }
 }
