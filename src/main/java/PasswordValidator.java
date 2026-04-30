@@ -1,6 +1,11 @@
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 public final class PasswordValidator {
+    public static final Set<String> COMMON_PASSWORDS =
+            Set.of("password", "Passwort1", "12345678", "Aa345678");
+
     public static boolean hasMinLength(@NotNull String password, int min) {
         if(password.isBlank()){
             return false;
@@ -10,9 +15,8 @@ public final class PasswordValidator {
     }
 
     public static boolean containsDigit(@NotNull String password) {
-        final String digits = "1234567890";
-        for(String letter: password.split("")) {
-            if(digits.contains(letter)) {
+        for(char character: password.toCharArray()) {
+            if(Character.isDigit(character)) {
                 return true;
             }
         }
@@ -20,7 +24,7 @@ public final class PasswordValidator {
         return false;
     }
 
-    public static boolean containsUpperAndLower(String password) {
+    public static boolean containsUpperAndLower(@NotNull String password) {
         boolean containsUpper = false;
         boolean containsLower = false;
         for (char c : password.toCharArray()) {
@@ -33,8 +37,14 @@ public final class PasswordValidator {
         return false;
     }
 
-    public static boolean isCommonPassword(String password) // kleine interne Liste
-    {
+    public static boolean isCommonPassword(@NotNull String password) {
+        String normalizedPassword = password.trim().toLowerCase();
+
+        for (String commonPassword : COMMON_PASSWORDS) {
+            if (normalizedPassword.contains(commonPassword.toLowerCase())) {
+                return true;
+            }
+        }
         return false;
     }
 

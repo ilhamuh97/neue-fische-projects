@@ -22,6 +22,11 @@ class PasswordValidatorTest {
         assertFalse(PasswordValidator.hasMinLength("", MIN_LENGTH));
     }
 
+    @Test
+    void hasMinLength_shouldReturnError_whenCalledWithNull() {
+        assertThrows(IllegalArgumentException.class, () -> PasswordValidator.hasMinLength(null, MIN_LENGTH));
+    }
+
     @ParameterizedTest
     @CsvSource({
             "test, false",
@@ -42,5 +47,15 @@ class PasswordValidatorTest {
     })
     void containsUpperAndLower_shouldReturnTrueOrFalse_whenCalledWithUpperLowerCase(String password, boolean expected){
         assertEquals(expected, PasswordValidator.containsUpperAndLower(password));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "testPassworD, true",
+            "passwort1Test123, true",
+            "isNotCommon, false",
+    })
+    void isCommonPassword_shouldReturnTrueOrFalse_whenCalledWithCommonAndNotCommon(String password, boolean expected) {
+        assertEquals(expected, PasswordValidator.isCommonPassword(password));
     }
 }
