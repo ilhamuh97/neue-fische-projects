@@ -24,7 +24,7 @@ class PasswordValidatorTest {
 
     @Test
     void hasMinLength_shouldReturnError_whenCalledWithNull() {
-        assertThrows(NullPointerException.class, () -> PasswordValidator.hasMinLength(null, MIN_LENGTH));
+        assertThrows(IllegalArgumentException.class, () -> PasswordValidator.hasMinLength(null, MIN_LENGTH));
     }
 
     @ParameterizedTest

@@ -7,6 +7,10 @@ public final class PasswordValidator {
             Set.of("password", "Passwort1", "12345678", "Aa345678");
 
     public static boolean hasMinLength(@NotNull String password, int min) {
+        if (password == null) {
+            throw new IllegalArgumentException("Password must not be null");
+        }
+
         if(password.isBlank()){
             return false;
         }
