@@ -54,8 +54,12 @@ public final class PasswordValidator {
     }
 
     // Optionale Gesamtsicht:
-    public static boolean isValid(String password) // nutzt die obenstehenden Checks
-    {
-        return false;
+    public static boolean isValid(String password) {
+        if (!hasMinLength(password, 8)) return false;
+        if (!containsDigit(password)) return false;
+        if (!containsUpperAndLower(password)) return false;
+        if (isCommonPassword(password)) return false;
+
+        return true;
     }
 }

@@ -40,9 +40,9 @@ class PasswordValidatorTest {
 
     @ParameterizedTest
     @CsvSource({
-            "HELLOWORLD, false",
-            "helloworld, false",
-            "HelloWorld, true",
+            "HELLOWORLD1, false",
+            "helloworld1, false",
+            "HelloWorld2, true",
             "h, false"
     })
     void containsUpperAndLower_shouldReturnTrueOrFalse_whenCalledWithUpperLowerCase(String password, boolean expected){
@@ -57,5 +57,19 @@ class PasswordValidatorTest {
     })
     void isCommonPassword_shouldReturnTrueOrFalse_whenCalledWithCommonAndNotCommon(String password, boolean expected) {
         assertEquals(expected, PasswordValidator.isCommonPassword(password));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Abc1def, false",
+            "Abc1defg, true",
+            "Abcdefgh, false",
+            "abcdefg1, false",
+            "ABCDEFG1, false",
+            "Passwort1, false",
+            "Abcdef1g, true",
+    })
+    void isValid_shouldReturnTrueOrFalse_whenCalledWithValidAndNotValid(String password, boolean expected) {
+        assertEquals(expected, PasswordValidator.isValid(password));
     }
 }
