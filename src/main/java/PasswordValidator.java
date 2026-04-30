@@ -10,9 +10,11 @@ public final class PasswordValidator {
     }
 
     public static boolean containsDigit(@NotNull String password) {
-        final String digits = "123456789";
-        if(digits.contains(password)) {
-            return true;
+        final String digits = "1234567890";
+        for(String letter: password.split("")) {
+            if(digits.contains(letter)) {
+                return true;
+            }
         }
 
         return false;
