@@ -60,11 +60,24 @@ public final class PasswordValidator {
         return false;
     }
 
+    public static boolean containsSpecialChar(@NotNull String password, String allowed) {
+        for (int i = 0; i < password.length(); i++) {
+            // Checking if the character exists within the 'allowed' string
+            if (allowed.indexOf(password.charAt(i)) != -1) {
+                return true;
+            }
+        }
+
+        System.out.println("Validation Failed: Password must contain at least one special character from: " + allowed);
+        return false;
+    }
+
     // Optionale Gesamtsicht:
     public static boolean isValid(String password) {
         if (!hasMinLength(password, 8)) return false;
         if (!containsDigit(password)) return false;
         if (!containsUpperAndLower(password)) return false;
+        if (!containsSpecialChar(password, "!@#$%^&*()-_+=?.,;:")) return false;
         if (isCommonPassword(password)) return false;
 
         return true;
@@ -96,6 +109,7 @@ public final class PasswordValidator {
             case 0 -> getRandomLowerCase();
             case 1 -> getRandomUpperCase();
             case 2 -> getRandomDigits();
+            case 3 -> getRandomSpecialCase(allowed);
             default -> "";
         };
     }
