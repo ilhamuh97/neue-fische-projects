@@ -60,37 +60,29 @@ public class OrderMapRepo implements OrderRepoInterface {
         }
 
         Order order = orders.get(orderId);
-
         if(order == null) {
             throw new IllegalArgumentException("Order not found");
         }
 
         OrderedProduct orderedProduct = order.orderedProducts().get(orderedProductId);
-
         if(orderedProduct == null) {
             throw new IllegalArgumentException("Ordered product not found");
         }
 
-        OrderedProduct updatedProduct =
-                new OrderedProduct(orderedProduct.product(), quantity);
-
+        OrderedProduct updatedProduct = new OrderedProduct(orderedProduct.product(), quantity);
         order.orderedProducts().put(orderedProductId, updatedProduct);
-
         recalculateTotalPrice(orderId);
     }
 
     private void recalculateTotalPrice(String orderId) {
         Order order = orders.get(orderId);
-
         BigDecimal totalPrice = BigDecimal.ZERO;
 
         for(OrderedProduct orderedProduct : order.orderedProducts().values()) {
-
-            BigDecimal lineTotal =
-                    orderedProduct.product().price()
-                            .multiply(BigDecimal.valueOf(orderedProduct.quantity()));
-
-            totalPrice = totalPrice.add(lineTotal);
+            BigDecimal orderedProductPrice = orderedProduct.product().price();
+            BigDecimal orderedProductQuantity = BigDecimal.valueOf(orderedProduct.quantity());
+            BigDecimal subTotal = orderedProductPrice.multiply(orderedProductQuantity);
+            totalPrice = totalPrice.add(subTotal);
         }
 
         Order updatedOrder = new Order(
