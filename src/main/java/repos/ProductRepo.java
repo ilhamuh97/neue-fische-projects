@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProductRepo {
-    HashMap<String, Product> products;
+    public HashMap<String, Product> products;
 
     public ProductRepo() {
         this.products = new HashMap<>();
@@ -30,11 +30,15 @@ public class ProductRepo {
 
     public ArrayList<Product> getProductsByIds(String[] ids) {
         ArrayList<Product> results = new ArrayList<>();
-        for(String id: ids) {
-            results.add(products.get(id));
+
+        for(String id : ids) {
+            Product product = products.get(id);
+
+            if(product != null) {
+                results.add(product);
+            }
         }
 
         return results;
     }
-
 }

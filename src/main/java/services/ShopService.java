@@ -19,7 +19,7 @@ public class ShopService {
         this.orderListRepo = new OrderMapRepo();
     }
 
-    public void addNewOrder(String[] productIds) {
+    public void addOrder(String[] productIds) {
         HashMap<String, OrderedProduct> orderedProducts = new HashMap<>();
         BigDecimal totalPrice = new BigDecimal(String.valueOf(BigDecimal.ZERO));
         for (String productId : productIds) {
@@ -47,14 +47,14 @@ public class ShopService {
             return;
         }
 
-        storeProductsToNewOrder(orderedProducts, totalPrice);
+        this.storeProductsToNewOrder(orderedProducts, totalPrice);
     }
 
     public void printAllOrders() {
-        System.out.println(orderListRepo.getAll());
+        System.out.println(this.getAllOrders());
     }
 
-    public ArrayList<Order> getAll() {
+    public ArrayList<Order> getAllOrders() {
         return orderListRepo.getAll();
     }
 

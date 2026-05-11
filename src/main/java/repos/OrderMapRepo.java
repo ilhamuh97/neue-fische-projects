@@ -2,8 +2,10 @@ package repos;
 
 import interfaces.OrderRepoInterface;
 import records.Order;
+import records.OrderedProduct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,22 +45,60 @@ public class OrderMapRepo implements OrderRepoInterface {
     }
 
     public BigDecimal getTotalPrice(String orderId) {
-        Order foundOrder = orders.get(orderId);
-        if(foundOrder == null) {
-            System.out.println("Order with ID " + orderId + " does not exist");
-            return null;
+        Order order = orders.get(orderId);
+
+        if(order == null) {
+            throw new IllegalArgumentException("Order not found");
         }
 
-        return foundOrder.totalSum();
+        return order.totalSum();
     }
 
-    public Order editQuantity(String orderId, String productId, int quantity) {
-        Order foundOrder = orders.get(orderId);
-        if(foundOrder == null) {
-            System.out.println("Order with ID " + orderId + " does not exist");
-            return null;
+    public void editQuantity(String orderId, String orderedProductId, int quantity) {
+        if(quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
         }
 
-        return null;
+        Order order = orders.get(orderId);
+
+        if(order == null) {
+            throw new IllegalArgumentException("Order not found");
+        }
+
+        OrderedProduct orderedProduct = order.orderedProducts().get(orderedProductId);
+
+        if(orderedProduct == null) {
+            throw new IllegalArgumentException("Ordered product not found");
+        }
+
+        OrderedProduct updatedProduct =
+                new OrderedProduct(orderedProduct.product(), quantity);
+
+        order.orderedProducts().put(orderedProductId, updatedProduct);
+
+        recalculateTotalPrice(orderId);
+    }
+
+    private void recalculateTotalPrice(String orderId) {
+        Order order = orders.get(orderId);
+
+        BigDecimal totalPrice = BigDecimal.ZERO;
+
+        for(OrderedProduct orderedProduct : order.orderedProducts().values()) {
+
+            BigDecimal lineTotal =
+                    orderedProduct.product().price()
+                            .multiply(BigDecimal.valueOf(orderedProduct.quantity()));
+
+            totalPrice = totalPrice.add(lineTotal);
+        }
+
+        Order updatedOrder = new Order(
+                order.id(),
+                order.orderedProducts(),
+                totalPrice.setScale(2, RoundingMode.HALF_UP)
+        );
+
+        orders.put(updatedOrder.id(), updatedOrder);
     }
 }
