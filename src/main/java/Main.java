@@ -1,4 +1,3 @@
-import records.Order;
 import records.Product;
 import repos.ProductRepo;
 import services.ShopService;
@@ -10,7 +9,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<String> cart = new ArrayList<>();
         ShopService shopService = getShopService();
