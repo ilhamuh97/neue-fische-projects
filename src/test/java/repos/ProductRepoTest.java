@@ -11,22 +11,6 @@ import java.util.HashMap;
 
 class ProductRepoTest {
 
-    public HashMap<String, Product> createProducts() {
-        Product p1 = new Product("1", "A", BigDecimal.valueOf(4.49));
-        Product p2 = new Product("2", "B", BigDecimal.valueOf(4.99));
-        Product p3 = new Product("3", "C", BigDecimal.valueOf(5.69));
-        Product p4 = new Product("4", "D", BigDecimal.valueOf(10.79));
-
-        HashMap<String, Product> products = new HashMap<>();
-
-        products.put(p1.id(), p1);
-        products.put(p2.id(), p2);
-        products.put(p3.id(), p3);
-        products.put(p4.id(), p4);
-
-        return products;
-    }
-
     @Test
     void add_shouldReturn5_whenCalledWith5Products() {
         // Adjust
@@ -95,5 +79,21 @@ class ProductRepoTest {
         ArrayList<Product> foundProducts  = productRepo.getProductsByIds(productIds);
 
         assertEquals(1, foundProducts.size());
+    }
+
+    private HashMap<String, Product> createProducts() {
+        Product p1 = new Product("1", "A", BigDecimal.valueOf(4.49));
+        Product p2 = new Product("2", "B", BigDecimal.valueOf(4.99));
+        Product p3 = new Product("3", "C", BigDecimal.valueOf(5.69));
+        Product p4 = new Product("4", "D", BigDecimal.valueOf(10.79));
+
+        HashMap<String, Product> products = new HashMap<>();
+
+        products.put(p1.id(), p1);
+        products.put(p2.id(), p2);
+        products.put(p3.id(), p3);
+        products.put(p4.id(), p4);
+
+        return products;
     }
 }

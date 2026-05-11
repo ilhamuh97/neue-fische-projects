@@ -14,40 +14,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 class OrderMapRepoTest {
-    final String ORDER_ID_1 = "o1";
+    private final String ORDER_ID_1 = "o1";
 
-    final String PRODUCT_ID_1 = "1";
-    final String PRODUCT_ID_2 = "2";
-    final String PRODUCT_ID_3 = "3";
+    private final String PRODUCT_ID_1 = "1";
+    private final String PRODUCT_ID_2 = "2";
+    private final String PRODUCT_ID_3 = "3";
 
-    final String ORDERED_PRODUCT_ID_1 = "op1";
-    final String ORDERED_PRODUCT_ID_2 = "op2";
-    final String ORDERED_PRODUCT_ID_3 = "op3";
-
-    Order createOrder() {
-        Product p1 = new Product(PRODUCT_ID_1, "A", BigDecimal.valueOf(4.49));
-        Product p2 = new Product(PRODUCT_ID_2, "B", BigDecimal.valueOf(4.99));
-        Product p3 = new Product(PRODUCT_ID_3, "C", BigDecimal.valueOf(5.69));
-
-        OrderedProduct oP1 = new OrderedProduct(p1, 1);
-        OrderedProduct oP2 = new OrderedProduct(p2, 2);
-        OrderedProduct oP3 = new OrderedProduct(p3, 3);
-
-        HashMap<String, OrderedProduct> oPs = new HashMap<>();
-        oPs.put(ORDERED_PRODUCT_ID_1, oP1);
-        oPs.put(ORDERED_PRODUCT_ID_2, oP2);
-        oPs.put(ORDERED_PRODUCT_ID_3, oP3);
-
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        for(OrderedProduct orderedProduct : oPs.values()) {
-            BigDecimal orderedProductPrice =  orderedProduct.product().price();
-            BigDecimal orderedProductQuantity = BigDecimal.valueOf(orderedProduct.quantity());
-            BigDecimal sumPriceTota = orderedProductPrice.multiply(orderedProductQuantity);
-            totalPrice = totalPrice.add(sumPriceTota);
-        }
-
-        return new Order(ORDER_ID_1, oPs, totalPrice);
-    }
+    private final String ORDERED_PRODUCT_ID_1 = "op1";
+    private final String ORDERED_PRODUCT_ID_2 = "op2";
+    private final String ORDERED_PRODUCT_ID_3 = "op3";
 
     @Test
     void getOrders_shouldReturn1_whenCalledWithALlOrders() {
@@ -173,5 +148,30 @@ class OrderMapRepoTest {
         //Assert
         assertEquals(5, orderedProduct.quantity());
         assertEquals(BigDecimal.valueOf(49.50).setScale(2, RoundingMode.HALF_UP), foundOrder.totalSum());
+    }
+
+    private Order createOrder() {
+        Product p1 = new Product(PRODUCT_ID_1, "A", BigDecimal.valueOf(4.49));
+        Product p2 = new Product(PRODUCT_ID_2, "B", BigDecimal.valueOf(4.99));
+        Product p3 = new Product(PRODUCT_ID_3, "C", BigDecimal.valueOf(5.69));
+
+        OrderedProduct oP1 = new OrderedProduct(p1, 1);
+        OrderedProduct oP2 = new OrderedProduct(p2, 2);
+        OrderedProduct oP3 = new OrderedProduct(p3, 3);
+
+        HashMap<String, OrderedProduct> oPs = new HashMap<>();
+        oPs.put(ORDERED_PRODUCT_ID_1, oP1);
+        oPs.put(ORDERED_PRODUCT_ID_2, oP2);
+        oPs.put(ORDERED_PRODUCT_ID_3, oP3);
+
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for(OrderedProduct orderedProduct : oPs.values()) {
+            BigDecimal orderedProductPrice =  orderedProduct.product().price();
+            BigDecimal orderedProductQuantity = BigDecimal.valueOf(orderedProduct.quantity());
+            BigDecimal sumPriceTota = orderedProductPrice.multiply(orderedProductQuantity);
+            totalPrice = totalPrice.add(sumPriceTota);
+        }
+
+        return new Order(ORDER_ID_1, oPs, totalPrice);
     }
 }
