@@ -12,11 +12,11 @@ import java.util.HashMap;
 
 public class ShopService {
     ProductRepo productRepo;
-    OrderMapRepo orderListRepo;
+    OrderMapRepo orderMapRepo;
 
     public ShopService(ProductRepo productRepo) {
         this.productRepo = productRepo;
-        this.orderListRepo = new OrderMapRepo();
+        this.orderMapRepo = new OrderMapRepo();
     }
 
     public void addOrder(String[] productIds) {
@@ -55,11 +55,15 @@ public class ShopService {
     }
 
     public ArrayList<Order> getAllOrders() {
-        return orderListRepo.getAll();
+        return orderMapRepo.getAll();
     }
 
     public Order getOrder(String orderId) {
-        return orderListRepo.getById(orderId);
+        return orderMapRepo.getById(orderId);
+    }
+
+    public ProductRepo getProductRepo(){
+        return productRepo;
     }
 
     private void storeProductsToNewOrder(
@@ -67,12 +71,12 @@ public class ShopService {
             BigDecimal totalPrice
     ) {
         Order order = new Order(this.generateOrderId(), orderedProducts, totalPrice);
-        orderListRepo.add(order);
+        orderMapRepo.add(order);
         System.out.println("Order created successfully. Your order ID is: " + order.id());
     }
 
     private String generateOrderId() {
-        return Integer.toString(orderListRepo.getOrders().size() + 1);
+        return Integer.toString(orderMapRepo.getOrders().size() + 1);
     }
 
 }
