@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    public static final String RESET = "\u001B[0m";
+
+    public static final String GREEN = "\u001B[32m";
+    public static final String RED = "\u001B[31m";
 
     static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -28,14 +32,14 @@ public class Main {
             Product product = shopService.getProductRepo().getProductById(input);
             if (product != null) {
                 cart.add(input);
-                System.out.println(product.name() + " added.");
+                System.out.println(GREEN + product.name() + " added." + RESET);
             } else {
-                System.out.println("Invalid product ID.");
+                System.out.println(RED + "Invalid product ID." + RESET);
             }
         }
 
         if (cart.isEmpty()) {
-            System.out.println("No products selected.");
+            System.out.println(RED + "No products selected." + RESET);
             return;
         }
 
@@ -69,10 +73,10 @@ public class Main {
     }
 
     private static void printAvailableProducts() {
-        System.out.println("1 - product A");
-        System.out.println("2 - product B");
-        System.out.println("3 - product C");
-        System.out.println("4 - product D");
-        System.out.println("5 - product E");
+        System.out.println(GREEN + "1 - product A" + RESET);
+        System.out.println(GREEN + "2 - product B" + RESET);
+        System.out.println(GREEN + "3 - product C" + RESET);
+        System.out.println(GREEN + "4 - product D" + RESET);
+        System.out.println(GREEN + "5 - product E" + RESET);
     }
 }
