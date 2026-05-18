@@ -9,4 +9,8 @@ public record Order(
         List<Product> products,
         OrderStatus orderStatus
 ) {
+
+    public Order withStatus(OrderStatus orderStatus) {
+        return new Order(this.id, this.products, orderStatus);
+    }
 }
