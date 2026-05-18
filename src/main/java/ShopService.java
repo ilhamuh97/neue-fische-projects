@@ -1,3 +1,4 @@
+import enums.OrderStatus;
 import records.Order;
 import records.Product;
 import repositories.OrderMapRepo;
@@ -23,7 +24,7 @@ public class ShopService {
             products.add(productToOrder);
         }
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products);
+        Order newOrder = new Order(UUID.randomUUID().toString(), products, OrderStatus.COMPLETED);
 
         return orderRepo.addOrder(newOrder);
     }

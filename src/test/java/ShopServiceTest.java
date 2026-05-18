@@ -1,3 +1,4 @@
+import enums.OrderStatus;
 import org.junit.jupiter.api.Test;
 import records.Order;
 import records.Product;
@@ -18,7 +19,7 @@ class ShopServiceTest {
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")));
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.COMPLETED);
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
