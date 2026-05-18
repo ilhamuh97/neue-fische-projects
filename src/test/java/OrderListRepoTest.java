@@ -56,8 +56,8 @@ class OrderListRepoTest {
     @Test
     void addOrder() {
         //GIVEN
-        OrderListRepo repo = new OrderListRepo();
         Instant now = Instant.now();
+        OrderListRepo repo = new OrderListRepo();
 
         Product product = new Product("1", "Apfel");
         Order newOrder = new Order("1", List.of(product), OrderStatus.COMPLETED, now);
