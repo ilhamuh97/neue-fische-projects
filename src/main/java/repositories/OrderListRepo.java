@@ -1,16 +1,15 @@
 package repositories;
 
+import interfaces.OrderRepo;
+import lombok.Getter;
 import records.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class OrderListRepo implements OrderRepo {
-    private List<Order> orders = new ArrayList<>();
-
-    public List<Order> getOrders() {
-        return orders;
-    }
+    private final List<Order> orders = new ArrayList<>();
 
     public Order getOrderById(String id) {
         for (Order order : orders) {

@@ -1,5 +1,6 @@
 package repositories;
 
+import interfaces.OrderRepo;
 import records.Order;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderMapRepo implements OrderRepo {
-    private Map<String, Order> orders = new HashMap<>();
+    private final Map<String, Order> orders = new HashMap<>();
 
     @Override
     public List<Order> getOrders() {

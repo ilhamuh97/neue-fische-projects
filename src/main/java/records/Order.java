@@ -1,16 +1,16 @@
 package records;
 
 import enums.OrderStatus;
+import lombok.With;
 
+import java.time.Instant;
 import java.util.List;
 
+@With
 public record Order(
         String id,
         List<Product> products,
-        OrderStatus orderStatus
+        OrderStatus orderStatus,
+        Instant datetime
 ) {
-
-    public Order withStatus(OrderStatus orderStatus) {
-        return new Order(this.id, this.products, orderStatus);
-    }
 }
