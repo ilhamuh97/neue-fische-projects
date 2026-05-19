@@ -9,7 +9,6 @@ import repositories.ProductRepo;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -20,15 +19,14 @@ public class ShopService {
     public Order addOrder(List<String> productIds) throws NullPointerException {
         List<Product> products = new ArrayList<>();
         for (String productId : productIds) {
-            Optional<Product> productToOrder = productRepo.getProductById(productId);
-            if (productToOrder.isEmpty()) {
-                throw new NullPointerException("Product not found!");
-            }
-            products.add(productToOrder.get());
+            Product productToOrder = productRepo
+                    .getProductById(productId)
+                    .orElseThrow(() -> new NullPointerException("Product not found!"));
+
+            products.add(productToOrder);
         }
 
         Order newOrder = new Order(UUID.randomUUID().toString(), products, OrderStatus.COMPLETED, Instant.now());
-
         return orderRepo.addOrder(newOrder);
     }
 
@@ -39,7 +37,12 @@ public class ShopService {
     }
 
     public void updateOrder(String orderID, OrderStatus newOrderStatus) {
-        Order newOrder = orderRepo.getOrderById(orderID).withOrderStatus(newOrderStatus);
+        Order newOrder = orderRepo.getOrderById(orderID);
+        if(newOrder == null) {
+            throw new NullPointerException("Order not found!");
+        }
+
+        newOrder = newOrder.withOrderStatus(newOrderStatus);
         orderRepo.addOrder(newOrder);
     }
 }

@@ -52,15 +52,27 @@ class ShopServiceTest {
     }
 
     @Test
-    void updateOrder_() {
+    void updateOrder_checkEveryStatuses() {
+        // GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
 
+        // WHEN
         Order newOrder = shopService.addOrder(productsIds);
         shopService.updateOrder(newOrder.id(), OrderStatus.PROCESSING);
 
+        // THEN
         assertEquals(OrderStatus.PROCESSING, shopService.getOrderRepo().getOrderById(newOrder.id()).orderStatus());
         assertNotEquals(OrderStatus.COMPLETED, shopService.getOrderRepo().getOrderById(newOrder.id()).orderStatus());
         assertNotEquals(OrderStatus.IN_DELIVERY, shopService.getOrderRepo().getOrderById(newOrder.id()).orderStatus());
+    }
+
+    @Test
+    void updateOrder_whenNoMatch_shouldThrowError() {
+        // GIVEN
+        ShopService shopService = new ShopService();
+
+        // WHEN + THEN
+        assertThrows(NullPointerException.class, () ->shopService.updateOrder("5", OrderStatus.PROCESSING));
     }
 }
