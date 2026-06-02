@@ -5,7 +5,8 @@ import org.example.pokeapi.exceptions.PokemonAlreadyExistsException;
 import org.example.pokeapi.exceptions.PokemonNotFoundException;
 import org.example.pokeapi.models.pokemon.FavoritePokemon;
 import org.example.pokeapi.models.pokemon.Pokemon;
-import org.example.pokeapi.models.pokemon.PokemonDTO;
+import org.example.pokeapi.models.pokemon.PokemonPostDTO;
+import org.example.pokeapi.models.pokemon.PokemonUpdateDTO;
 import org.example.pokeapi.models.pokemon.rawPokemon.RawPokemon;
 import org.example.pokeapi.repos.PokemonRepo;
 import org.springframework.http.HttpStatusCode;
@@ -23,6 +24,7 @@ public class PokemonService {
     private final IdService idService;
     private final PokemonRepo pokemonRepo;
 
+    // POKEMON API
     public Pokemon getPokemonByName(String name) {
         RawPokemon rawPokemon = getRawPokemon(name);
 
@@ -36,7 +38,7 @@ public class PokemonService {
                 .build();
     }
 
-    public FavoritePokemon addPokemonToCollection(PokemonDTO pokemonDTO) {
+    public FavoritePokemon addPokemonToCollection(PokemonPostDTO pokemonDTO) {
         RawPokemon rawPokemon = getRawPokemon(pokemonDTO.pokemonName());
 
         Boolean pokemonExists  = pokemonRepo.existsByPokemonId(rawPokemon.id());
@@ -59,6 +61,43 @@ public class PokemonService {
         return  pokemonRepo.save(favPokemon);
     }
 
+    // COLLECTION
+    public FavoritePokemon getFavPokemonById(String id) {
+        return pokemonRepo.findById(id).orElseThrow(() -> new PokemonNotFoundException("Pokemon not found!"));
+    }
+
+    public void deleteFavPokemonById(String id) {
+        boolean pokemonExists  = pokemonRepo.existsById(id);
+
+        if (!pokemonExists) {
+            throw new PokemonNotFoundException("Pokemon not found!");
+        }
+
+        pokemonRepo.deleteById(id);
+    }
+
+    public List<FavoritePokemon> getAllFavPokemon() {
+        return pokemonRepo.findAll();
+    }
+
+    public FavoritePokemon updateFavPokemonNicknameById(String id, PokemonUpdateDTO pokemonDTO) {
+        FavoritePokemon pokemonExists = pokemonRepo.findById(id).orElseThrow(() -> new PokemonNotFoundException("Pokemon not found!"));
+
+        FavoritePokemon favPokemon = FavoritePokemon.builder()
+                .id(pokemonExists.id())
+                .pokemonId(pokemonExists.pokemonId())
+                .nickName(pokemonDTO.nickname())
+                .pokemonName(pokemonExists.pokemonName())
+                .pictureUrl(pokemonExists.pictureUrl())
+                .height(pokemonExists.height())
+                .weight(pokemonExists.weight())
+                .types(pokemonExists.types())
+                .build();
+
+        return  pokemonRepo.save(favPokemon);
+    }
+
+    // UTILS
     private RawPokemon getRawPokemon(String name) {
         return Objects.requireNonNull(restClientPokemon.get()
                 .uri("/pokemon/{name}", name)
