@@ -29,7 +29,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                             @NonNull HttpStatusCode status,
                                                                             @NonNull WebRequest request) {
         Map<String, String> validationErrors = new HashMap<>();
-
         List<FieldError> allErrors = ex.getBindingResult().getFieldErrors();
 
         allErrors.forEach(error -> {
@@ -37,17 +36,37 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             String errorMsg = error.getDefaultMessage();
             validationErrors.put(fieldName, errorMsg);
         });
-        return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity
+                .status(status.value())
+                .body(validationErrors);
     }
 
     @ExceptionHandler(PokemonNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponseDTO handlePokemonNotFoundException(PokemonNotFoundException ex, WebRequest request) {
+        HttpStatus errorStatus = HttpStatus.NOT_FOUND;
+
         return ErrorResponseDTO.builder()
-                .apiPath(request.getDescription(false))
-                .errorMsg(ex.getMessage())
-                .errorCode(HttpStatus.NOT_FOUND)
-                .errorTime(LocalDateTime.now())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .message(ex.getMessage())
+                .status(errorStatus.value())
+                .error(errorStatus.getReasonPhrase())
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    @ExceptionHandler(PokemonAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handlePokemonAlreadyExistsException(PokemonAlreadyExistsException ex, WebRequest request) {
+        HttpStatus errorStatus = HttpStatus.CONFLICT;
+
+        return ErrorResponseDTO.builder()
+                .path(request.getDescription(false).replace("uri=", ""))
+                .message(ex.getMessage())
+                .status(errorStatus.value())
+                .error(errorStatus.getReasonPhrase())
+                .timestamp(LocalDateTime.now())
                 .build();
     }
 }

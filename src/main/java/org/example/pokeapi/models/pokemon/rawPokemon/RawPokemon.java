@@ -1,9 +1,9 @@
-package org.example.pokeapi.models.rawPokemon;
+package org.example.pokeapi.models.pokemon.rawPokemon;
 
 import java.util.List;
 
 public record RawPokemon(
-        String id,
+        int id,
         String name,
         int height,
         int weight,

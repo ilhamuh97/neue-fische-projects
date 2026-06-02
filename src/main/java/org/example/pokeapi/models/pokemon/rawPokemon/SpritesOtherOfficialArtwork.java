@@ -1,4 +1,4 @@
-package org.example.pokeapi.models.rawPokemon;
+package org.example.pokeapi.models.pokemon.rawPokemon;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,9 +1,13 @@
 package org.example.pokeapi.services;
 
 import lombok.RequiredArgsConstructor;
+import org.example.pokeapi.exceptions.PokemonAlreadyExistsException;
 import org.example.pokeapi.exceptions.PokemonNotFoundException;
-import org.example.pokeapi.models.Pokemon;
-import org.example.pokeapi.models.rawPokemon.RawPokemon;
+import org.example.pokeapi.models.pokemon.FavoritePokemon;
+import org.example.pokeapi.models.pokemon.Pokemon;
+import org.example.pokeapi.models.pokemon.PokemonDTO;
+import org.example.pokeapi.models.pokemon.rawPokemon.RawPokemon;
+import org.example.pokeapi.repos.PokemonRepo;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,10 +20,47 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PokemonService {
     private final RestClient restClientPokemon;
+    private final IdService idService;
+    private final PokemonRepo pokemonRepo;
 
     public Pokemon getPokemonByName(String name) {
+        RawPokemon rawPokemon = getRawPokemon(name);
 
-        RawPokemon rawPokemon = Objects.requireNonNull(restClientPokemon.get()
+        return Pokemon.builder()
+                .pokemonId(rawPokemon.id())
+                .pokemonName(rawPokemon.name())
+                .height(rawPokemon.height())
+                .weight(rawPokemon.weight())
+                .pictureUrl(getPictureUrl(rawPokemon))
+                .types(getTypes(rawPokemon))
+                .build();
+    }
+
+    public FavoritePokemon addPokemonToCollection(PokemonDTO pokemonDTO) {
+        RawPokemon rawPokemon = getRawPokemon(pokemonDTO.pokemonName());
+
+        Boolean pokemonExists  = pokemonRepo.existsByPokemonId(rawPokemon.id());
+
+        if (pokemonExists) {
+            throw new PokemonAlreadyExistsException("Pokemon already exists in collection: " + rawPokemon.name());
+        }
+
+        FavoritePokemon favPokemon = FavoritePokemon.builder()
+                .id(idService.randomId())
+                .pokemonId(rawPokemon.id())
+                .nickName(pokemonDTO.nickname())
+                .pokemonName(rawPokemon.name())
+                .pictureUrl(getPictureUrl(rawPokemon))
+                .height(rawPokemon.height())
+                .weight(rawPokemon.weight())
+                .types(getTypes(rawPokemon))
+                .build();
+
+        return  pokemonRepo.save(favPokemon);
+    }
+
+    private RawPokemon getRawPokemon(String name) {
+        return Objects.requireNonNull(restClientPokemon.get()
                 .uri("/pokemon/{name}", name)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -27,15 +68,6 @@ public class PokemonService {
                     throw new PokemonNotFoundException("Pokemon not found!");
                 })
                 .body(RawPokemon.class));
-
-        return Pokemon.builder()
-                .pokemonId((rawPokemon).id())
-                .pokemonName(rawPokemon.name())
-                .height(rawPokemon.height())
-                .weight(rawPokemon.weight())
-                .pictureUrl(getPictureUrl(rawPokemon))
-                .types(getTypes(rawPokemon))
-                .build();
     }
 
     private String getPictureUrl(RawPokemon rawPokemon) {
