@@ -93,7 +93,7 @@ public class PokemonService {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (_, _) -> {
                     throw new PokemonNotFoundException("Pokemon not found!");
-                })
+                }) // https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
                 .body(RawPokemon.class));
     }
 

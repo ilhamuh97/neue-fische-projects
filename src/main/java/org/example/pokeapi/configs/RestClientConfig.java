@@ -7,6 +7,7 @@ import org.springframework.web.client.RestClient;
 @Configuration(proxyBeanMethods = false)
 public class RestClientConfig {
 
+    // https://docs.spring.io/spring-boot/reference/io/rest-client.html
     @Bean
     public RestClient restClientPokemon(RestClient.Builder restClientBuilder) {
         return restClientBuilder
