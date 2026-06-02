@@ -1,6 +1,7 @@
 package org.example.pokeapi.services;
 
 import lombok.RequiredArgsConstructor;
+import org.example.pokeapi.exceptions.CollectionEntryNotFoundException;
 import org.example.pokeapi.exceptions.PokemonAlreadyExistsException;
 import org.example.pokeapi.exceptions.PokemonNotFoundException;
 import org.example.pokeapi.models.pokemon.FavoritePokemon;
@@ -63,14 +64,14 @@ public class PokemonService {
 
     // COLLECTION
     public FavoritePokemon getFavPokemonById(String id) {
-        return pokemonRepo.findById(id).orElseThrow(() -> new PokemonNotFoundException("Pokemon not found!"));
+        return pokemonRepo.findById(id).orElseThrow(() -> new CollectionEntryNotFoundException("Pokemon not found!"));
     }
 
     public void deleteFavPokemonById(String id) {
         boolean pokemonExists  = pokemonRepo.existsById(id);
 
         if (!pokemonExists) {
-            throw new PokemonNotFoundException("Pokemon not found!");
+            throw new CollectionEntryNotFoundException("Pokemon not found!");
         }
 
         pokemonRepo.deleteById(id);
@@ -81,20 +82,7 @@ public class PokemonService {
     }
 
     public FavoritePokemon updateFavPokemonNicknameById(String id, PokemonUpdateDTO pokemonDTO) {
-        FavoritePokemon pokemonExists = pokemonRepo.findById(id).orElseThrow(() -> new PokemonNotFoundException("Pokemon not found!"));
-
-        FavoritePokemon favPokemon = FavoritePokemon.builder()
-                .id(pokemonExists.id())
-                .pokemonId(pokemonExists.pokemonId())
-                .nickName(pokemonDTO.nickname())
-                .pokemonName(pokemonExists.pokemonName())
-                .pictureUrl(pokemonExists.pictureUrl())
-                .height(pokemonExists.height())
-                .weight(pokemonExists.weight())
-                .types(pokemonExists.types())
-                .build();
-
-        return  pokemonRepo.save(favPokemon);
+        return  pokemonRepo.save(getFavPokemonById(id).withNickName(pokemonDTO.nickname()));
     }
 
     // UTILS

@@ -1,12 +1,14 @@
 package org.example.pokeapi.models.pokemon;
 
 import lombok.Builder;
+import lombok.With;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
 @Builder
+@With
 public record FavoritePokemon(
         @Id String id,
 

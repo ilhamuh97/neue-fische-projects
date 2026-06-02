@@ -69,4 +69,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+
+    @ExceptionHandler(CollectionEntryNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDTO handleCollectionEntryNotFoundException(CollectionEntryNotFoundException ex, WebRequest request) {
+        HttpStatus errorStatus = HttpStatus.CONFLICT;
+
+        return ErrorResponseDTO.builder()
+                .path(request.getDescription(false).replace("uri=", ""))
+                .message(ex.getMessage())
+                .status(errorStatus.value())
+                .error(errorStatus.getReasonPhrase())
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
 }
