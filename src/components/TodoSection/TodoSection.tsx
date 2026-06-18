@@ -1,10 +1,14 @@
 import { type ReactNode } from 'react';
-import type { TODO } from "../../types/todo.type.ts";
-import "./style.css";
-import Todo from "../Todo/Todo.tsx";
-import { deleteTodoById, updateTodoById } from "../../api/todo.ts";
-import { useTodos } from "../../hooks/useTodos.tsx";
 import type { AxiosResponse } from "axios";
+
+import type { TODO } from "../../types/todo.type.ts";
+
+import { useTodos } from "../../hooks/useTodos.tsx";
+import { deleteTodoById, updateTodoById } from "../../api/todo.ts";
+
+import Todo from "../Todo/Todo.tsx";
+
+import "./style.css";
 
 type Props = {
     title?: string;

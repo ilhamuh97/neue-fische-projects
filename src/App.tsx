@@ -1,26 +1,18 @@
-import {type ReactNode, useEffect, useState} from "react";
-import {getTodos} from "./api/todo.ts";
-import {TodoContext} from "./context/TodoContext.tsx";
-import type {TODO} from "./types/todo.type.ts";
-import type {AxiosError, AxiosResponse} from "axios";
+import {type ReactNode, useState} from "react";
 import { Route, Routes } from "react-router-dom";
+
+import type {TODO} from "./types/todo.type.ts";
+
+import {TodoContext} from "./context/TodoContext.tsx";
 
 import Home from "./pages/home";
 import Add from "./pages/add";
+import Detail from "./pages/detail";
 
 import './App.css'
 
 function App(): ReactNode {
     const [todos, setTodos] = useState<TODO[]>([] as TODO[]);
-
-    useEffect((): void => {
-        const fetchData: () => void = () => { getTodos()
-                .then((response: AxiosResponse<TODO[]>) => setTodos(response.data))
-                .catch((e: AxiosError) => console.error(e))
-        }
-
-        void fetchData()
-    }, [])
 
     return (
         <TodoContext value={{todos, setTodos}}>
@@ -32,6 +24,7 @@ function App(): ReactNode {
                     <Routes>
                         <Route path={"/"} element={<Home />}/>
                         <Route path={"/add"} element={<Add />}/>
+                        <Route path={"/:id"} element={<Detail />}/>
                     </Routes>
                 </main>
             </div>

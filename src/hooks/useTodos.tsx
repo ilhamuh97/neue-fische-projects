@@ -1,6 +1,8 @@
 import {useContext} from "react";
-import {TodoContext, type TodoContextType} from "../context/TodoContext.tsx";
+
 import type {TODO} from "../types/todo.type.ts";
+
+import {TodoContext, type TodoContextType} from "../context/TodoContext.tsx";
 
 type GroupedTodo =  {
     openTodos: TODO[],

@@ -1,9 +1,11 @@
-import type {TODO} from "../../types/todo.type.ts";
 import { IoMdArrowDropright, IoMdArrowDropleft } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
+import {Link} from "react-router-dom"
+import type {ReactNode} from "react";
+
+import type {TODO} from "../../types/todo.type.ts";
 
 import "./style.css"
-import type {ReactNode} from "react";
 
 type Props = {
     todo: TODO
@@ -15,9 +17,7 @@ type Props = {
 function Todo({todo, handleNext, handleBack, handleDelete}: Props): ReactNode {
     return (
         <div className={"todo"}>
-            <div className={"description"}>
-                <p>{todo.description}</p>
-            </div>
+            <Link className={"description c"} to={`/${todo.id}`}>{todo.description}</Link>
             <div className={"actions"}>
                 {handleBack && (
                     <button

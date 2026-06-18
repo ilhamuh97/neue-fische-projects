@@ -1,13 +1,15 @@
 import {type ReactNode} from 'react';
+import { FaPlus } from "react-icons/fa";
+import { type NavigateFunction, useNavigate} from "react-router-dom";
+
 import TodoSection from "../TodoSection/TodoSection.tsx";
+
 import {useTodos} from "../../hooks/useTodos.tsx";
 
 import "./style.css";
-import { FaPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 function TodosWrapper(): ReactNode {
-    const nav = useNavigate();
+    const nav: NavigateFunction = useNavigate();
     const {openTodos, inProgressTodos, doneTodos} = useTodos();
 
     function handleClick() {
