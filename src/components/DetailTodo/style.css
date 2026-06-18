@@ -1,0 +1,12 @@
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #111827;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+}

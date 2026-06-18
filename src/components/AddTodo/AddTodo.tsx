@@ -9,6 +9,7 @@ import {useTodos} from "../../hooks/useTodos.tsx";
 import {createTodo} from "../../api/todo.ts";
 
 import "./style.css"
+import {AiOutlineArrowLeft} from "react-icons/ai";
 
 type FormValues = {
     description: string,
@@ -34,7 +35,12 @@ function AddTodo(): ReactNode {
 
     return (
         <div>
-            <h2 className="title">Add New Character</h2>
+            <button className="button-primary" onClick={() => nav("/")}>
+                <AiOutlineArrowLeft/> Home
+            </button>
+
+            <h2 className="title">Add New TODO</h2>
+
             <form className={"form"} onSubmit={handleSubmit(onSubmit)}>
                 <label>
                     Description:
