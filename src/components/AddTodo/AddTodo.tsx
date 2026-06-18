@@ -35,7 +35,7 @@ function AddTodo(): ReactNode {
 
     return (
         <div>
-            <button className="button-primary" onClick={() => nav("/")}>
+            <button className="btn btn-primary" onClick={() => nav("/")}>
                 <AiOutlineArrowLeft/> Home
             </button>
 
@@ -45,6 +45,7 @@ function AddTodo(): ReactNode {
                 <label>
                     Description:
                     <input
+                        className={"input"}
                         {...register("description", {
                             required: "Description is required",
                             minLength: {
@@ -54,16 +55,16 @@ function AddTodo(): ReactNode {
                         })}
                     />
                     {errors.description && (
-                        <p className="error">{errors.description.message}</p>
+                        <p className="text-error">{errors.description.message}</p>
                     )}
                 </label>
 
                 <div className="buttons">
-                    <button className="button-primary" type="submit" disabled={!isValid}>
+                    <button className={"btn btn-primary"} type={"submit"} disabled={!isValid}>
                         Add
                     </button>
 
-                    <button className="button-secondary" type="reset">
+                    <button className={"btn btn-secondary"} type={"reset"}>
                         Reset
                     </button>
                 </div>

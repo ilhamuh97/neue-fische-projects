@@ -17,22 +17,22 @@ type Props = {
 function Todo({todo, handleNext, handleBack, handleDelete}: Props): ReactNode {
     return (
         <div className={"todo"}>
-            <Link className={"description c"} to={`/${todo.id}`}>{todo.description}</Link>
+            <Link className={"description"} to={`/${todo.id}`}>{todo.description}</Link>
             <div className={"actions"}>
                 {handleBack && (
                     <button
-                        className="button-secondary"
+                        className="btn btn-secondary"
                         onClick={() => handleBack(todo.id)}
                     >
                         <IoMdArrowDropleft/>
                     </button>
                 )}
-                <button className={"button-danger"} onClick={() => handleDelete(todo.id)}>
+                <button className={"btn btn-danger"} onClick={() => handleDelete(todo.id)}>
                     <MdDelete/>
                 </button>
                 {handleNext && (
                     <button
-                        className="button-secondary"
+                        className="btn btn-secondary"
                         onClick={() => handleNext(todo.id)}
                     >
                         <IoMdArrowDropright />

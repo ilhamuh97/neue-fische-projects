@@ -17,7 +17,7 @@ function TodosWrapper(): ReactNode {
     }
     return (
         <>
-            <button className={"button-primary sticky-right-bottom"} onClick={handleClick}>
+            <button className={"btn btn-primary sticky-right-bottom"} onClick={handleClick}>
                 <FaPlus/>
             </button>
             <div className={"sections-wrapper"}>

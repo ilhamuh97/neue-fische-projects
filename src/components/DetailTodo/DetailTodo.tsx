@@ -1,14 +1,13 @@
 import {type NavigateFunction, useNavigate} from "react-router-dom";
 import {type ReactNode} from "react";
-import type {AxiosError, AxiosResponse} from "axios";
+import type {AxiosError} from "axios";
 
 import type {STATUS, TODO} from "../../types/todo.type.ts";
 
-import {updateTodoById} from "../../api/todo.ts";
+import {deleteTodoById, updateTodoById} from "../../api/todo.ts";
 
 import {useForm} from "react-hook-form";
 import {AiOutlineArrowLeft} from "react-icons/ai";
-import {useTodos} from "../../hooks/useTodos.tsx";
 
 import "./style.css"
 
@@ -28,20 +27,21 @@ function DetailTodo({todo}: Props): ReactNode {
             status: todo.status,
         },});
     const {errors, isValid} = formState;
-    const {setTodos} = useTodos();
 
     const onSubmit = (formData: FormValues) => {
-        updateTodoById(todo.id, {
-            ...formData,
-        })
-            .then((response: AxiosResponse<TODO>) => setTodos((prevCharacters: TODO[]): TODO[] => [...prevCharacters, response.data]))
+        updateTodoById(todo.id, {...formData,})
             .catch((error: AxiosError) => console.error(error))
             .finally(() => nav("/"))
     }
 
+    function handleDelete(): void {
+        deleteTodoById(todo.id)
+            .catch((err) => console.error("Failed to delete todo:", err))
+            .finally(() => nav("/"));
+    }
     return (
         <div>
-            <button className="button-primary" onClick={() => nav("/")}>
+            <button className="btn btn-primary" onClick={() => nav("/")}>
                 <AiOutlineArrowLeft/> Home
             </button>
             <h2 className="title">TODO Detail</h2>
@@ -50,6 +50,7 @@ function DetailTodo({todo}: Props): ReactNode {
                 <label>
                     Description:
                     <input
+                        className={"input"}
                         {...register("description", {
                             required: "Description is required",
                             minLength: {
@@ -75,12 +76,16 @@ function DetailTodo({todo}: Props): ReactNode {
                 </label>
 
                 <div className="buttons">
-                    <button className="button-primary" type="submit" disabled={!isValid}>
+                    <button className="btn btn-primary" type="submit" disabled={!isValid}>
                         Update
                     </button>
 
-                    <button className="button-secondary" type="button" onClick={() => reset()}>
+                    <button className="btn btn-secondary" type="button" onClick={() => reset()}>
                         Reset
+                    </button>
+
+                    <button className="btn btn-danger" type="button" onClick={() => handleDelete()}>
+                        Delete
                     </button>
                 </div>
             </form>
