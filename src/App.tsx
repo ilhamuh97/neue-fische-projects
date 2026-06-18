@@ -3,7 +3,10 @@ import {getTodos} from "./api/todo.ts";
 import {TodoContext} from "./context/TodoContext.tsx";
 import type {TODO} from "./types/todo.type.ts";
 import type {AxiosError, AxiosResponse} from "axios";
-import OpenTodo from "./components/OpenTodo/OpenTodo.tsx";
+import { Route, Routes } from "react-router-dom";
+
+import Home from "./pages/home";
+import Add from "./pages/add";
 
 import './App.css'
 
@@ -22,11 +25,14 @@ function App(): ReactNode {
     return (
         <TodoContext value={{todos, setTodos}}>
             <div className={"app"}>
-                Hello
+                <h1>TODO APP</h1>
+                <p>by Ilham Muhammad</p>
+
                 <main className={"main"}>
-                    <div className={"sections-wrapper"}>
-                        <OpenTodo />
-                    </div>
+                    <Routes>
+                        <Route path={"/"} element={<Home />}/>
+                        <Route path={"/add"} element={<Add />}/>
+                    </Routes>
                 </main>
             </div>
         </TodoContext>

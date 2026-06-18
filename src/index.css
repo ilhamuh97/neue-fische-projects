@@ -1,31 +1,78 @@
 :root {
-  --color-primary: #df5f31;
-  --color-secondary: #6f5d7b;
-  --color-accent: #20788a;
-  --color-background: #E5E7EB;
+  --color-primary: #8B9B77;
+  --color-secondary: #A1B09A;
+  --color-accent: #C57B57;
+
+  --color-background: #F1EADF;
+  --color-background-secondary: #EDE7DC;
   --color-text: #1f2937;
+
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
 }
 
-.color-primary {
-  color: var(--color-primary);
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Calibri, serif;
+  background-color: var(--color-background);
 }
 
-.bg-primary {
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.color-primary { color: var(--color-primary); }
+.bg-primary { background-color: var( --color-background); }
+
+.color-secondary { color: var(--color-secondary); }
+.bg-secondary { background-color: var(--color-background-secondary); }
+
+.color-accent { color: var(--color-accent); }
+.bg-accent { background-color: var(--color-accent); }
+
+.button-primary {
   background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.color-secondary {
-  color: var(--color-secondary);
+.button-primary:hover {
+  background-color: #6f7d60; /* slightly darker */
 }
 
-.bg-secondary {
+.button-secondary {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text);
+  border: 1px solid var(--color-secondary);
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.button-secondary:hover {
   background-color: var(--color-secondary);
+  color: white;
+}
+.button-danger {
+  background-color: var(--color-danger);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.color-accent {
-  color: var(--color-accent);
-}
-
-.bg-accent {
-  background-color: var(--color-accent);
+.button-danger:hover {
+  background-color: var(--color-danger-hover);
 }

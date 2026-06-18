@@ -5,7 +5,7 @@ import type {TODO} from "../types/todo.type.ts";
 export const createTodo: (data: Partial<TODO>) => Promise<AxiosResponse> = (
     data: Partial<TODO>
 ): Promise<AxiosResponse<TODO>> => {
-    return api.put("/todo", data);
+    return api.post("/todo", data);
 };
 
 export const getTodos: () => Promise<AxiosResponse> = (): Promise<AxiosResponse> => api.get("/todo");

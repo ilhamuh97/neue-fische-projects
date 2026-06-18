@@ -2,6 +2,22 @@
   width: 100vw;
   background-color: var(--color-background);
 }
+
+.app>h1, .app>p {
+  width: 100%;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.app>p {
+  margin-bottom: 5rem;
+}
+
+.page {
+  padding: 0 5rem;
+}
+
 .main {
   max-width: 1440px;
+  margin: auto;
 }

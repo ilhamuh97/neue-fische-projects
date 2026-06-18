@@ -1,0 +1,13 @@
+.todo {
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo .actions {
+    display: flex;
+    gap: .5rem;
+}
